@@ -19,13 +19,17 @@ object agently extends ScalaModule with ScalafmtModule with PublishModule {
   
   def mainClass = Some("agently.AgentlyMain")
 
+  val circe = List("core", "generic", "parser", "optics", "java8").map { artifact =>
+    ivy"io.circe::circe-$artifact:0.10.0"
+  }
+
   def ivyDeps = Agg(
     ivy"org.reactivestreams:reactive-streams:1.0.2",
     ivy"com.typesafe.scala-logging::scala-logging:3.7.2",
     ivy"ch.qos.logback:logback-classic:1.1.11",
     ivy"io.get-coursier::coursier:1.0.3",
     ivy"io.get-coursier::coursier-cache:1.0.3"
-  )
+  ) ++ circe
 
   def publishVersion = "0.0.1"
   def pomSettings = PomSettings(
